@@ -19,6 +19,3 @@ class User(Base):
     id = Column(Integer, primary_key=True, index=True)
     username = Column(String, unique=True, index=True)
     password = Column(String)
-
-    results = relationship("Results", back_populates="user")
-    inputs = relationship("Input", back_populates="user")
