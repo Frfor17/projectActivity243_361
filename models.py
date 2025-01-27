@@ -1,24 +1,46 @@
-from enum import unique
-
-from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, JSON
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker, relationship
-
-DATABASE_URL = "sqlite:///./db.sqlite"
-
-engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-
-Base = declarative_base()
+from database import Base
+from sqlalchemy import String, Integer, Column, Float
+from sqlalchemy.orm import relationship
 
 
-# Модель пользователя для БД
-class User(Base):
-    __tablename__ = 'users'
-
-    id = Column(Integer, primary_key=True, index=True)
-    username = Column(String, unique=True, index=True)
+class Users(Base):
+    __tablename__ = "users"
+    user_id = Column(Integer, primary_key=True, ForeignKey=("likes.user_id"), index=True, unique=True)
+    username = Column(String)
+    mail = Column(String)
     password = Column(String)
+    image_path = Column(String)
 
-    results = relationship("Results", back_populates="user")
-    inputs = relationship("Input", back_populates="user")
+    pet_projects = relationship("PetProjects", back_populates="users")
+    likes = relationship("Likes", back_populates="users")
+
+class Likes(Base):
+    __tablename__ = "likes"
+    like_id = Column(Integer)
+    user_id = Column(Integer, primary_key=True)
+    project_id = Column(Integer, primary_key=True, index=True)
+    score = Column(Integer)
+
+    users = relationship("Users", back_populates="likes")
+    pet_projects = relationship("PetProjects", back_populates="likes")
+
+class PetProjects(Base):
+    __tablename__ = "pet_projects"
+    project_id = Column(Integer, ForeignKey=("likes.project_id"), unique=True)
+    user_id = Column(Integer, ForeignKey=("users.user_id"), unique=True)
+    theme_id = Column(Integer, ForeignKey("themes.theme_id"), unique=True)
+    title = Column(String)
+    short_description = Column(String)
+    description = Column(String)
+    average_score = Column(Float(precision=53))
+
+    users = relationship("Users", back_populates="pet_projects")
+    likes = relationship("Likes", back_populates="pet_projects")
+    themes = relationship("themes", back_populates="pet_projects")
+
+class Themes(Base):
+    __tablename__ = "themes"
+    theme_id = Column(Integer, primary_key=True, index=True)
+    theme_name = Column(String)
+
+    pet_projects = relationship("PetProjects", back_populates="themes")
