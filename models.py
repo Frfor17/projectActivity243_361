@@ -26,6 +26,7 @@ class Likes(Base):
     # pet_projects = relationship("PetProjects", back_populates="likes")
 
 
+
 # class PetProjects(Base):
 #     __tablename__ = "pet_projects"
 #     project_id = Column(Integer, primary_key=True)  # Исправлено на primary_key
