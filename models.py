@@ -14,21 +14,23 @@ class Users(Base):
     pet_projects = relationship("PetProjects", back_populates="users")
     likes = relationship("Likes", back_populates="users")
 
+
 class Likes(Base):
     __tablename__ = "likes"
-    like_id = Column(Integer)
+    like_id = Column(Integer, primary_key=True)  # Добавлен primary_key
     user_id = Column(Integer, ForeignKey("users.user_id"))
-    project_id = Column(Integer, primary_key=True, index=True)
+    project_id = Column(Integer, ForeignKey("pet_projects.project_id"), primary_key=True, index=True)  # Исправлен внешний ключ
     score = Column(Integer)
 
     users = relationship("Users", back_populates="likes")
     pet_projects = relationship("PetProjects", back_populates="likes")
 
+
 class PetProjects(Base):
     __tablename__ = "pet_projects"
-    project_id = Column(Integer, ForeignKey("likes.project_id"), unique=True)
+    project_id = Column(Integer, ForeignKey("pet_projects.project_id"), unique=True)
     user_id = Column(Integer, ForeignKey("users.user_id"), unique=True)
-    theme_id = Column(Integer, ForeignKey("themes.theme_id"), unique=True)
+    theme_id = Column(Integer, ForeignKey("themes.theme_id"))
     title = Column(String)
     short_description = Column(String)
     description = Column(String)
@@ -36,7 +38,8 @@ class PetProjects(Base):
 
     users = relationship("Users", back_populates="pet_projects")
     likes = relationship("Likes", back_populates="pet_projects")
-    themes = relationship("themes", back_populates="pet_projects")
+    themes = relationship("Themes", back_populates="pet_projects")
+
 
 class Themes(Base):
     __tablename__ = "themes"
