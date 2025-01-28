@@ -1,11 +1,11 @@
 from database import Base
-from sqlalchemy import String, Integer, Column, Float
+from sqlalchemy import String, Integer, Column, Float, ForeignKey
 from sqlalchemy.orm import relationship
 
 
 class Users(Base):
     __tablename__ = "users"
-    user_id = Column(Integer, primary_key=True, ForeignKey=("likes.user_id"), index=True, unique=True)
+    user_id = Column(Integer, primary_key=True, index=True, unique=True)
     username = Column(String)
     mail = Column(String)
     password = Column(String)
@@ -17,7 +17,7 @@ class Users(Base):
 class Likes(Base):
     __tablename__ = "likes"
     like_id = Column(Integer)
-    user_id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey("users.user_id"))
     project_id = Column(Integer, primary_key=True, index=True)
     score = Column(Integer)
 
@@ -26,8 +26,8 @@ class Likes(Base):
 
 class PetProjects(Base):
     __tablename__ = "pet_projects"
-    project_id = Column(Integer, ForeignKey=("likes.project_id"), unique=True)
-    user_id = Column(Integer, ForeignKey=("users.user_id"), unique=True)
+    project_id = Column(Integer, ForeignKey("likes.project_id"), unique=True)
+    user_id = Column(Integer, ForeignKey("users.user_id"), unique=True)
     theme_id = Column(Integer, ForeignKey("themes.theme_id"), unique=True)
     title = Column(String)
     short_description = Column(String)
