@@ -37,9 +37,9 @@ class PetProjects(Base):
     description = Column(String)
     average_score = Column(Float(precision=53))
 
-#     users = relationship("Users", back_populates="pet_projects")
-#     likes = relationship("Likes", back_populates="pet_projects")
-#     themes = relationship("Themes", back_populates="pet_projects")
+    users = relationship("Users", back_populates="pet_projects")
+    likes = relationship("Likes", back_populates="pet_projects")
+    themes = relationship("Themes", back_populates="pet_projects")
 
 
 # class Themes(Base):
