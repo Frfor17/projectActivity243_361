@@ -11,7 +11,7 @@ class Users(Base):
     password = Column(String)
     image_path = Column(String)
 
-    # pet_projects = relationship("PetProjects", back_populates="users")
+    pet_projects = relationship("PetProjects", back_populates="users")
     likes = relationship("Likes", back_populates="users")
 
 
@@ -23,7 +23,7 @@ class Likes(Base):
     score = Column(Integer)
 
     users = relationship("Users", back_populates="likes")
-    # pet_projects = relationship("PetProjects", back_populates="likes")
+    pet_projects = relationship("PetProjects", back_populates="likes")
 
 
 
