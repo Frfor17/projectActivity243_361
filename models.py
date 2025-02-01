@@ -27,9 +27,9 @@ class Likes(Base):
 
 
 
-# class PetProjects(Base):
-#     __tablename__ = "pet_projects"
-#     project_id = Column(Integer, primary_key=True)  # Исправлено на primary_key
+class PetProjects(Base):
+    __tablename__ = "pet_projects"
+    project_id = Column(Integer, primary_key=True)  # Исправлено на primary_key
 #     user_id = Column(Integer, ForeignKey("users.user_id"))
 #     theme_id = Column(Integer, ForeignKey("themes.theme_id"))
 #     title = Column(String)
