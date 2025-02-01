@@ -42,9 +42,9 @@ class PetProjects(Base):
     themes = relationship("Themes", back_populates="pet_projects")
 
 
-# class Themes(Base):
-#     __tablename__ = "themes"
-#     theme_id = Column(Integer, primary_key=True, index=True)
-#     theme_name = Column(String)
+class Themes(Base):
+    __tablename__ = "themes"
+    theme_id = Column(Integer, primary_key=True, index=True)
+    theme_name = Column(String)
 
-#     pet_projects = relationship("PetProjects", back_populates="themes")
+    pet_projects = relationship("PetProjects", back_populates="themes")
